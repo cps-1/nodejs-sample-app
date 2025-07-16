@@ -1,0 +1,21 @@
+{
+  "name": "capybara-api",
+  "version": "1.0.0",
+  "description": "A simple Node.js Capybara API",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "CPS1 Team",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "*",
+    "express": "*",
+    "swagger-jsdoc": "*",
+    "swagger-ui-express": "*"
+  },
+  "devDependencies": {
+    "nodemon": "*"
+  }
+}
