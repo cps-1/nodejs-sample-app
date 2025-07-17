@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "migrate": "node migrate.js"
   },
   "author": "CPS1 Team",
   "license": "ISC",
@@ -13,7 +14,8 @@
     "cors": "*",
     "express": "*",
     "swagger-jsdoc": "*",
-    "swagger-ui-express": "*"
+    "swagger-ui-express": "*",
+    "pg": "*"
   },
   "devDependencies": {
     "nodemon": "*"
