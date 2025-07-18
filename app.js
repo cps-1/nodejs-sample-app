@@ -25,12 +25,7 @@ const swaggerDefinition = {
     title: 'Capybara API',
     version: '1.0.0',
     description: 'A simple CRUD API for capybaras',
-  },
-  servers: [
-    {
-      url: 'http://localhost:3000',
-    },
-  ],
+  }
 };
 
 const options = {
