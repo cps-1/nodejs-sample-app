@@ -1,7 +1,6 @@
 
-const { Client } = require('pg');
-const fs = require('fs');
-const path = require('path');
+import { Client } from 'pg';
+import fs from 'fs';
 
 function getDbConfig(database = 'capybaradb') {
   return {

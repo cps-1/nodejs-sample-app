@@ -1,9 +1,10 @@
 
-const express = require('express');
-const swaggerUi = require('swagger-ui-express');
-const swaggerJSDoc = require('swagger-jsdoc');
-const cors = require('cors');
-const { Pool } = require('pg');
+import express from 'express';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import cors from 'cors';
+import { Pool } from 'pg';
+import { createClient } from 'redis';
 
 const pool = new Pool({
   host: process.env.POSTGRES_SERVICE_HOST || 'localhost',
