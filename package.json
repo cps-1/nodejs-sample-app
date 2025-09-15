@@ -16,7 +16,8 @@
     "express": "*",
     "swagger-jsdoc": "*",
     "swagger-ui-express": "*",
-    "pg": "*"
+    "pg": "*",
+    "redis": "*"
   },
   "devDependencies": {
     "@eslint/js": "^9.35.0",

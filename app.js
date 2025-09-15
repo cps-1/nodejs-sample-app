@@ -14,6 +14,18 @@ const pool = new Pool({
   port: process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT) : 5432,
 });
 
+const redisClient = createClient({
+  socket: {
+    host: process.env.REDIS_SERVICE_HOST || 'localhost',
+    port: 6379,
+    connectTimeout: 15000
+  }
+});
+
+redisClient.on('error', err => console.log('Redis Client Error', err));
+redisClient.on('connect', () => console.log('Connected to Redis'));
+await redisClient.connect();
+
 const app = express();
 const port = 3000;
 const host = '0.0.0.0';
@@ -82,7 +94,14 @@ const swaggerSpec = swaggerJSDoc(options);
  */
 app.get('/capybaras', async (req, res) => {
   try {
+    const cacheKey = 'capybaras:all';
+    const cached = await redisClient.get(cacheKey);
+    if (cached) {
+      console.log(`[CACHE] GET /capybaras - served from cache: ${cacheKey}`);
+      return res.json(JSON.parse(cached));
+    }
     const result = await pool.query('SELECT * FROM capybara ORDER BY id');
+    await redisClient.set(cacheKey, JSON.stringify(result.rows), { EX: 60 });
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -114,8 +133,16 @@ app.get('/capybaras', async (req, res) => {
  */
 app.get('/capybaras/:id', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM capybara WHERE id = $1', [parseInt(req.params.id)]);
+    const id = parseInt(req.params.id);
+    const cacheKey = `capybaras:${id}`;
+    const cached = await redisClient.get(cacheKey);
+    if (cached) {
+      console.log(`[CACHE] GET /capybaras/${id} - served from cache: ${cacheKey}`);
+      return res.json(JSON.parse(cached));
+    }
+    const result = await pool.query('SELECT * FROM capybara WHERE id = $1', [id]);
     if (result.rows.length === 0) return res.status(404).json({ message: 'Capybara not found' });
+    await redisClient.set(cacheKey, JSON.stringify(result.rows[0]), { EX: 60 });
     res.json(result.rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
