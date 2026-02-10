@@ -9,6 +9,9 @@ function getDbConfig(database = 'capybaradb') {
     password: process.env.POSTGRES_PASSWORD || 'postgres',
     database,
     port: process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT) : 5432,
+    ssl: {
+      rejectUnauthorized: false
+    }
   };
 }
 
