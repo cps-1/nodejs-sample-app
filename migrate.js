@@ -3,15 +3,18 @@ import { Client } from 'pg';
 import fs from 'fs';
 
 function getDbConfig(database = 'capybaradb') {
+  const sslEnabled = /^(1|true|yes|on)$/i.test(process.env.DB_SSL || '');
   return {
-    host: process.env.POSTGRES_SERVICE_HOST || 'localhost',
-    user: process.env.POSTGRES_USER || 'postgres',
-    password: process.env.POSTGRES_PASSWORD || 'postgres',
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || 'postgres',
     database,
-    port: process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT) : 5432,
-    ssl: {
-      rejectUnauthorized: false
-    }
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432,
+    ssl: sslEnabled
+      ? {
+          rejectUnauthorized: false
+        }
+      : undefined
   };
 }
 
