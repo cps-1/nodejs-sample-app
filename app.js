@@ -7,9 +7,9 @@ import { Pool } from 'pg';
 import { createClient } from 'redis';
 
 const pool = new Pool({
-  host: process.env.POSTGRES_SERVICE_HOST || 'localhost',
-  user: process.env.POSTGRES_USER || 'postgres',
-  password: process.env.POSTGRES_PASSWORD || 'postgres',
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD || 'postgres',
   database: 'capybaradb',
   port: process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT) : 5432,
   ssl: {
@@ -19,7 +19,7 @@ const pool = new Pool({
 
 const redisClient = createClient({
   socket: {
-    host: process.env.REDIS_SERVICE_HOST || 'localhost',
+    host: process.env.CACHE_HOST || 'localhost',
     port: 6379,
     connectTimeout: 15000
   }

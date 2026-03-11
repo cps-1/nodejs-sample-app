@@ -4,11 +4,11 @@ import fs from 'fs';
 
 function getDbConfig(database = 'capybaradb') {
   return {
-    host: process.env.POSTGRES_SERVICE_HOST || 'localhost',
-    user: process.env.POSTGRES_USER || 'postgres',
-    password: process.env.POSTGRES_PASSWORD || 'postgres',
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || 'postgres',
     database,
-    port: process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT) : 5432,
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432,
     ssl: {
       rejectUnauthorized: false
     }
