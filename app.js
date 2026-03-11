@@ -6,15 +6,19 @@ import cors from 'cors';
 import { Pool } from 'pg';
 import { createClient } from 'redis';
 
+const sslEnabled = /^(1|true|yes|on)$/i.test(process.env.DB_SSL || '');
+
 const pool = new Pool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || 'postgres',
   database: 'capybaradb',
   port: process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT) : 5432,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ssl: sslEnabled
+    ? {
+        rejectUnauthorized: false
+      }
+    : undefined
 });
 
 const redisClient = createClient({
